@@ -1,9 +1,8 @@
-var fs = require('fs');
-var array = fs.readFileSync('input.txt').toString().split('\n');
+const array = Deno.readTextFileSync('input.txt').toString().split('\n');
 
 let maxCal = 0;
 let elfCal = 0;
-let elfCals = new Array();
+const elfCals = [];
 
 array.forEach((element) => {
   if (element == '') {
@@ -17,6 +16,8 @@ array.forEach((element) => {
 
 elfCals.sort((a, b) => b - a);
 
+//part 1 answer
 console.log(maxCal);
-console.log(elfCals[0], elfCals[1], elfCals[2]);
+
+//part 2 answer
 console.log(elfCals[0] + elfCals[1] + elfCals[2]);
