@@ -13,30 +13,19 @@ const moves = lines
 
 const data = lines.filter((f) => !f.startsWith('move') && f != '');
 
-//console.log(data);
-
-const testtt = [
-  ['a', 'b'],
-  ['c', 'd'],
-];
-
 const stackCount = (data[0].length + 1) / 4;
 const stacks: string[][] = [[]];
 for (let i = 0; i < stackCount - 1; i++) {
   stacks.push([]);
 }
 for (let i = data.length - 2; i >= 0; i--) {
-  //console.log(data[i]);
   for (let j = 1, k = 0; j < data[i].length - 1; j = j + 4, k++) {
-    //console.log(data[i].charAt(j));
     const crate = data[i].charAt(j);
     if (crate != ' ') {
       stacks[k].push(crate);
     }
   }
 }
-console.log('stacks', stacks);
-//console.log(moves);
 
 moves.forEach((m) => {
   const fromStack = m[1] - 1;
@@ -49,7 +38,6 @@ moves.forEach((m) => {
     stacks[toStack].push(tempStack.pop()!);
   }
 });
-console.log('stacks', stacks);
 
 const answer = stacks.map((s) => s.pop()).join('');
 
