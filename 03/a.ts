@@ -1,35 +1,44 @@
-const rucksacks = Deno.readTextFileSync('prod.txt').toString().split('\n');
+export const x = '';
 
-// console.log('A'.charCodeAt(0) - 38);
-// console.log('a'.charCodeAt(0) - 96);
+const input = await Deno.readTextFile('./prod.txt');
 
-const rs_compartments = rucksacks.map((r: string) => {
-  return [
-    r.substring(0, r.length / 2 - 1),
-    r.substring(r.length / 2, r.length),
-  ];
-});
+const lines = input.split('\n');
 
-let sharedItems: string[] = [];
-let sharedItemsComp: string[] = [];
-rs_compartments.forEach((r) => {
-  sharedItemsComp = [];
-  for (let i = 0; i < r[0].length; i++) {
-    if (r[1].includes(r[0][i]) && !sharedItemsComp.includes(r[0][i]))
-      sharedItemsComp.push(r[0][i]);
-  }
-  //console.log(sharedItemsComp);
+const letterToNumber = (letter: string) => {
+  const alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  return alphabet.indexOf(letter) + 1;
+};
 
-  sharedItems = sharedItems.concat(sharedItemsComp);
-});
+console.log('lines', lines);
 
-//console.log(sharedItems);
-const values = sharedItems.map((r) => {
-  console.log(r);
-  return r!.charCodeAt(0) < 97 ? r!.charCodeAt(0) - 38 : r!.charCodeAt(0) - 96;
-});
+let sum = 0;
 
-const theSum = values.reduce((acc, val) => {
-  return (acc += val);
-});
-console.log(theSum);
+const getFirstHalfOfString = (str: string) => {
+  return str.slice(0, str.length / 2);
+};
+
+const getSecondHalfOfString = (str: string) => {
+  return str.slice(str.length / 2);
+};
+
+for (const line of lines) {
+  const firstHalf = getFirstHalfOfString(line)
+    .split('')
+    .map((l) => letterToNumber(l));
+  const secondHalf = getSecondHalfOfString(line)
+    .split('')
+    .map((l) => letterToNumber(l));
+
+  let c = 0;
+
+  firstHalf.forEach((v) => {
+    if (secondHalf.includes(v)) {
+      c = v;
+    }
+  });
+
+  console.log(line, ' ', c);
+  sum += c;
+}
+
+console.log(sum);
